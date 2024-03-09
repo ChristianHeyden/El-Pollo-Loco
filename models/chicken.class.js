@@ -1,11 +1,10 @@
 class Chicken extends MovableObject{
 
     x = 120;
-    y = 370;
+    y = 345;
     height = 70;
     width = 70;
-    speed = 0.25;
-    IMAGES_WALKING_Chicken = [
+    IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'       
@@ -14,7 +13,7 @@ class Chicken extends MovableObject{
 
     constructor(){
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        this.loadImages(this.IMAGES_WALKING_Chicken);
+        this.loadImages(this.IMAGES_WALKING);
 
         this.animate();
 
@@ -24,17 +23,29 @@ class Chicken extends MovableObject{
     };
 
 
-    animate(){    
-        this.moveLeft();
+    animate(){ 
+        setInterval( () =>{
+            this.moveLeft();
+        }, 1000 / 60);   
+        
         
         setInterval(() =>{
-            let i = this.currentImage % this.IMAGES_WALKING_Chicken.length; 
-            let path = this.IMAGES_WALKING_Chicken[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playAnimation(this.IMAGES_WALKING); 
         }, 100);       
     }; 
 
 
 
 }
+
+
+
+
+// Bessere Formel zur Kollisionsberechnung (Genauer)
+// isColliding (obj) {
+//     return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
+//             (this.Y + this.offsetY + this.height) >= obj.Y &&
+//             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
+//             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+
+// }
