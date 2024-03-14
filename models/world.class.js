@@ -7,6 +7,7 @@ class World{
     camera_x = 0;
     statusBar = new StatusBar();
     coinStatusBar = new CoinStatusbar();
+    collectedCoins = [];
     bottleStatusBar = new BottleStatusBar();
     endbossStatusBar = new EndbossStatusBar();
     throwableObjects = [];
@@ -68,6 +69,7 @@ class World{
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
+        this.addObjectsToMap(this.level.coins);
         
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
