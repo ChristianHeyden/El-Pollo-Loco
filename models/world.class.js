@@ -32,6 +32,7 @@ class World{
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCoinCollisions();
         }, 100)
     }
 
@@ -40,6 +41,24 @@ class World{
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);            
         }
+    }
+
+
+    checkCoinCollisions(){
+        this.level.coins.forEach((coin, indexCoins) => {
+            if (this.character.isColliding(coin)) {
+                this.collectedCoins.push(coin);
+                this.level.coins.splice(indexCoins, 1);
+                let coinpercentage  = (this.collectedCoins.length / 5) * 100;
+                console.log('coinpercentage', coinpercentage); 
+                this.coinStatusBar. setPercentage(coinpercentage);
+                
+            }
+        });
+
+
+
+
     }
 
 
