@@ -49,9 +49,9 @@ class World{
             if (this.character.isColliding(coin)) {
                 this.collectedCoins.push(coin);
                 this.level.coins.splice(indexCoins, 1);
-                let coinpercentage  = (this.collectedCoins.length / 5) * 100;
+                let coinPercentage  = (this.collectedCoins.length / 5) * 100;
                 console.log('coinpercentage', coinpercentage); 
-                this.coinStatusBar. setPercentage(coinpercentage);
+                this.coinStatusBar. setPercentage(coinPercentage);
                 
             }
         });
