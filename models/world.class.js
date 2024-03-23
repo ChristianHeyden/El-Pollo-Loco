@@ -9,8 +9,10 @@ class World{
     coinStatusBar = new CoinStatusbar();
     collectedCoins = [];
     bottleStatusBar = new BottleStatusBar();
-    endbossStatusBar = new EndbossStatusBar();
+    collectedBottles = [];
     throwableObjects = [];
+    endbossStatusBar = new EndbossStatusBar();
+    
     
 
 
@@ -33,6 +35,7 @@ class World{
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCoinCollisions();
+            this.checkBottleCollisions();
         }, 100)
     }
 
@@ -50,15 +53,22 @@ class World{
                 this.collectedCoins.push(coin);
                 this.level.coins.splice(indexCoins, 1);
                 let coinPercentage  = (this.collectedCoins.length / 5) * 100;
-                console.log('coinpercentage', coinpercentage); 
+                console.log('coinpercentage', coinPercentage); 
                 this.coinStatusBar. setPercentage(coinPercentage);
-                
             }
         });
+    }
 
-
-
-
+    checkBottleCollisions(){
+        this.level.bottles.forEach((bottle, indexBottle) => {
+            if (this.character.isColliding(bottle)) {
+                this.collectedBottles.push(bottle);
+                this.level.bottles.splice(indexBottle, 1);
+                let bottlePercentage  = (this.collectedBottles.length / 5) * 100;
+                console.log('bottlePercentage', bottlePercentage); 
+                this.bottleStatusBar. setPercentage(bottlePercentage);
+            }
+        });
     }
 
 
@@ -89,6 +99,7 @@ class World{
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);

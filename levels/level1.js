@@ -47,6 +47,7 @@ function initLevel1 (){
         setEnemies(),
         setCloud(),
         setCoin(),
+        setBottle(),
         setBackground(),
         
         
@@ -80,6 +81,18 @@ function setCoin(){
         new Coin()
     ]
 }
+
+function setBottle(){
+    return [
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle()
+    ]
+}
+
+
 
 function setBackground(){
     return [
