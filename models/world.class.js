@@ -1,5 +1,6 @@
 class World{
     character = new Character(); 
+    // bottle = new Bottle();
     level = level1;
     canvas;
     ctx;
@@ -34,7 +35,8 @@ class World{
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkCoinCollisions();
+            this.collectCoins();
+            this.collectBottles();
             this.checkBottleCollisions();
         }, 100)
     }
@@ -50,7 +52,7 @@ class World{
     }
 
 
-    checkCoinCollisions(){
+    collectCoins(){
         this.level.coins.forEach((coin, indexCoins) => {
             if (this.character.isColliding(coin)) {
                 this.collectedCoins.push(coin);
@@ -62,7 +64,7 @@ class World{
         });
     }
 
-    checkBottleCollisions(){
+    collectBottles(){
         this.level.bottles.forEach((bottle, indexBottle) => {
             if (this.character.isColliding(bottle)) {
                 this.collectedBottles.push(bottle);
@@ -71,6 +73,32 @@ class World{
             }
         });
     }
+
+
+    checkBottleCollisions(){
+        this.throwableObjects.forEach((bottle, indexBottle) => {
+			this.level.enemies.forEach((enemy, indexEnemy) => {
+				// if (this.bottleHitsGround(indexBottle)) {
+				// 	this.setCollidingTime();
+				// 	this.throwableObjects[indexBottle].splashAnimation();
+				// 	this.brockenBottleSplice();
+				// }
+				if (this.checkBottleHitsEnemy(enemy, indexBottle)) {
+                    console.log('getroffen !!!')
+					// this.setCollidingTime();
+					this.level.enemies[indexEnemy].hit();
+					this.throwableObjects[indexBottle].splashAnimation();
+					// this.brockenBottleSplice();
+				}
+			});
+		});
+	}
+
+
+    checkBottleHitsEnemy(enemy, indexBottle) {
+		return this.throwableObjects[indexBottle].isColliding(enemy);
+	}
+
 
 
     checkBottleStatusbar(){        
