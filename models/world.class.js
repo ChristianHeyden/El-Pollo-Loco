@@ -78,16 +78,17 @@ class World{
     checkBottleCollisions(){
         this.throwableObjects.forEach((bottle, indexBottle) => {
 			this.level.enemies.forEach((enemy, indexEnemy) => {
-				// if (this.bottleHitsGround(indexBottle)) {
+				if (this.checkBottleHitsGround(indexBottle)) {
 				// 	this.setCollidingTime();
-				// 	this.throwableObjects[indexBottle].splashAnimation();
+				 	this.throwableObjects[indexBottle].splashAnimation();
 				// 	this.brockenBottleSplice();
-				// }
+				 }
 				if (this.checkBottleHitsEnemy(enemy, indexBottle)) {
                     console.log('getroffen !!!')
 					// this.setCollidingTime();
 					this.level.enemies[indexEnemy].hit();
 					this.throwableObjects[indexBottle].splashAnimation();
+                    this.endbossStatusBar.setPercentage(this.level.enemies[3].energy);
 					// this.brockenBottleSplice();
 				}
 			});
@@ -99,7 +100,9 @@ class World{
 		return this.throwableObjects[indexBottle].isColliding(enemy);
 	}
 
-
+    checkBottleHitsGround(indexBottle) {
+		return this.throwableObjects[indexBottle].y > 300 && this.throwableObjects[indexBottle].y < 370;
+	}
 
     checkBottleStatusbar(){        
         let bottlePercentage  = (this.collectedBottles.length / 5) * 100;
@@ -109,13 +112,40 @@ class World{
 
 
     checkCollisions(){
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+        this.level.enemies.forEach((enemy, indexEnemy) => {
+            if (this.checkCharacterAboveGround(enemy, indexEnemy)) {
+                this.character.speedY = 10;
+                this.level.enemies[indexEnemy].energy = 0;
+                
+            } else if (this.checkEnemyEnergy(enemy, indexEnemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
     }
+
+
+    checkCharacterAboveGround(enemy, indexEnemy) {
+        return (
+            this.character.isAboveGround() &&
+            this.character.isColliding(enemy) &&
+            this.level.enemies[indexEnemy].energy > 1
+        )
+    }
+
+    checkEnemyEnergy(enemy, indexEnemy){
+        return this.character.isColliding(enemy) && this.level.enemies[indexEnemy].energy > 0
+
+    }
+
+
+
+
+    headJumpHit(indexEnemy) {
+		if (this.level.enemies[indexEnemy].energy > 1) {
+			this.character.headJump();
+		}
+	}
 
     
     draw(){
